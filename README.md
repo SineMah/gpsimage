@@ -10,8 +10,8 @@ Yopu could also combine it with an FB API called graph. Could be fun ;)
 # Use me
 
 ```php
-$gps1 = new GpsImage(['image1.jpg', 'image2.jpg']);
-$gps2 = new GpsImage('image1.jpg');
+$gps1 = new GpsImage('your_api_key', ['image1.jpg', 'image2.jpg']);
+$gps2 = new GpsImage('your_api_key', 'image1.jpg');
 
 $link = $gps1->init(true);
 $someImageInfo = $gps2->init();
