@@ -21,18 +21,22 @@ class GpsImage {
     private $gpsArray = array('FileName', 'DateTimeOriginal', 'GPSVersion', 'GPSLatitudeRef', 'GPSLatitude', 'GPSLongitudeRef', 'GPSLongitude', 'GPSAltitudeRef', 'GPSAltitude', 'GPSMeasureMode', 'GPSDOP');
     private $locationValues;
     private $locations = array();
+    private $apiKey;
 
 	/**
      * Constructor
      *
+     * @param str $apiKey Exiftool path
      * @param str $path Exiftool path
      * @return object $this
      */
-    public function __construct($path=false, $zoom=10, $size='600x600') {
+    public function __construct($apiKey, $path=false, $zoom=10, $size='600x600') {
         $this->coordinates = new StdClass();
         $this->locationValues = new StdClass();
         $this->mappingOptions = new StdClass();
 
+	$this->apiKey = $apiKey;
+	    
         if($path) {
             $this->imagePath = $path;
         }else {
@@ -90,8 +94,9 @@ class GpsImage {
         $type = $this->buildMaptype();
         $center = $this->buildCenter();
         $marker = $this->buildMarker();
+	$key = $this->buildKey();
 
-        return $uri . $center . $zoom . $size . $type . $marker;
+        return $uri . $key . $center . $zoom . $size . $type . $marker;
     }
 
     /**
@@ -149,7 +154,12 @@ class GpsImage {
         $latitude = $latitude / $i;
         $longitude = $longitude / $i;
 
-        return '?center=' . $latitude . ',' . $longitude;
+        return '&center=' . $latitude . ',' . $longitude;
+    }
+	
+    private function buildKey() {
+
+        return '?key=' . $this->apiKey;
     }
 
     /**
